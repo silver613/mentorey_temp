@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -31,7 +29,7 @@ import Logo from "~/components/atoms/Logo";
 import { useRouter } from "next/navigation";
 import LoadingScreen from "../common/LoadingScreen";
 import { useSelector } from "react-redux";
-import { selectUser } from "~/slices/userSlice";
+import { selectAuthState } from "~/slices/userSlice";
 
 function InHeader() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -42,7 +40,7 @@ function InHeader() {
   );
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
-  const curUser = useSelector(selectUser);
+  const curUser = useSelector(selectAuthState);
   React.useEffect(() => {
     // console.log(curUser['custom:is_teacher']);
   }, [curUser]);

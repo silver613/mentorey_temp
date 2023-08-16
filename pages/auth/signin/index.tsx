@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { TextField } from "@mui/material";
 import Spinner from "~/components/common/Spinner";
 import { toast } from "react-toastify";
-import useSetUserInfo from "~/hooks/useSetUserInfo";
+import useSetAuthState from "~/hooks/useSetAuthState";
 
 export default function SignInPage() {
   const [email, setEmail] = React.useState<string>("");
@@ -13,7 +13,7 @@ export default function SignInPage() {
   // Spinner state
   const [spin, setSpin] = React.useState<boolean>(false);
   const router = useRouter();
-  const setUserInfo = useSetUserInfo();
+  const setAuthState = useSetAuthState();
 
   function isValidEmail(email: string) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,7 +62,7 @@ export default function SignInPage() {
         } else {
           // success handler
           const user = data.user;
-          setUserInfo(user);
+          setAuthState(user);
           if (!!user.is_verified) {
             const url = user.is_teacher ? "/coach/dashboard" : "/pupil/learn";
             router.push(url);

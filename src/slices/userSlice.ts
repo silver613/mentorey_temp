@@ -1,25 +1,38 @@
-// slices/userSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "~/store/store";
 
-interface UserState {
-  user: any;
+import { AppState } from "~/store/store";
+import { HYDRATE } from "next-redux-wrapper";
+
+export interface AuthState {
+  authState: any;
 }
 
-const initialState: UserState = {
-  user: null,
+const initialState: AuthState = {
+  authState: null,
 };
 
-const userSlice = createSlice({
-  name: "user",
+export const authSlice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    setAuthState(state, action) {
+      state.authState = action.payload;
+    },
+  },
+
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      console.log("HYDRATE", action.payload);
+      return {
+        ...state,
+        ...action.payload.auth,
+      };
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
-export default userSlice.reducer;
-export const selectUser = (state: RootState) => state.userInfo.user;
+export const { setAuthState } = authSlice.actions;
+
+export const selectAuthState = (state: AppState) => state.auth?.authState;
+
+export default authSlice.reducer;

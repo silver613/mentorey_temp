@@ -6,14 +6,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { selectUser } from "~/slices/userSlice";
+import { selectAuthState } from "~/slices/userSlice";
 import { useSelector } from "react-redux";
 
 const VerifyPage: NextPageWithLayout = () => {
   const [code, setCode] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const router = useRouter();
-  const curUser = useSelector(selectUser);
+  const curUser = useSelector(selectAuthState);
   useEffect(() => {
     if (curUser.is_verified) {
       const url = curUser.is_teacher ? "/coach/dashboard" : "/pupil/learn";

@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { countries } from "~/shared/data";
 import VerifyModal from "~/components/widgets/VerifyModal";
 import { useRouter } from "next/router";
-import useSetUserInfo from "~/hooks/useSetUserInfo";
+import useSetAuthState from "~/hooks/useSetAuthState";
 
 // Set the datepicker's timezone as UTC
 dayjs.extend(utc);
@@ -43,7 +43,7 @@ export default function SignUpPage() {
   // Next Router
   const router = useRouter();
   // User info setting hook
-  const setUserInfo = useSetUserInfo();
+  const setAuthState = useSetAuthState();
 
   function isValidPwd(password: string, confirmPassword: string): boolean {
     const passwordRegex =
@@ -138,7 +138,7 @@ export default function SignUpPage() {
       toast.error("Your email has already taken. Please sign in.");
       return false;
     } else if (data.newUser) {
-      setUserInfo(data.newUser);
+      setAuthState(data.newUser);
       router.push(`/auth/verify/`);
     }
   }
