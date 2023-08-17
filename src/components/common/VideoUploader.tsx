@@ -4,10 +4,17 @@ import React, { useRef, useState, useEffect } from "react";
 import { Box, Button, Divider } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Storage } from "aws-amplify";
 import { nanoid } from "nanoid";
-import { getFileExtension, getFullS3Uri } from "~/utils/utils";
+import { getFileExtension } from "~/utils/utils";
 import { toast } from "react-toastify";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+const client = new S3Client({
+  region: "us-west-2",
+  credentials: {
+    accessKeyId: "AKIA3WFV2SULDNNESNDC",
+    secretAccessKey: "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",
+  },
+});
 
 const VideoUploader = ({
   uploading,
@@ -24,34 +31,44 @@ const VideoUploader = ({
   const [videoKey, setVideoKey] = useState<number>(0);
   const [videoName, setVideoName] = useState<string>("");
 
-  // useEffect(() => {
-  // 	console.log(videoFile && URL.createObjectURL(videoFile));
-  // }, [videoFile]);
-
   function getVideo() {
     videoInputRef.current?.click();
   }
 
-  function uploadVideo(event: React.ChangeEvent<HTMLInputElement>) {
+  async function uploadVideo(event: React.ChangeEvent<HTMLInputElement>) {
     const video = event.target.files?.[0];
+
     if (video) {
-      setUploading(true);
-      Storage.remove(videoName, { level: "public" });
-      Storage.put(nanoid() + "." + getFileExtension(video.name), video, {
-        level: "public",
-      })
-        .then((res) => {
-          setVideoFile(video);
-          setVideoKey(videoKey + 1);
-          setUploading(false);
-          sendVideoName(res.key);
-          setVideoName(res.key);
-          toast.success("Video is uploaded successfully");
-        })
-        .catch((err) => {
-          toast.error("Network error! Please try again.");
-          console.log(err);
-        });
+      const command = new PutObjectCommand({
+        Bucket: "mentorey",
+        Key: `${nanoid()}.${getFileExtension(video.name)}`,
+        Body: video,
+      });
+
+      console.log(command);
+      try {
+        const response = await client.send(command);
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+      }
+
+      // Storage.remove(videoName, { level: "public" });
+      // Storage.put(nanoid() + "." + getFileExtension(video.name), video, {
+      //   level: "public",
+      // })
+      //   .then((res) => {
+      //     setVideoFile(video);
+      //     setVideoKey(videoKey + 1);
+      //     setUploading(false);
+      //     sendVideoName(res.key);
+      //     setVideoName(res.key);
+      //     toast.success("Video is uploaded successfully");
+      //   })
+      //   .catch((err) => {
+      //     toast.error("Network error! Please try again.");
+      //     console.log(err);
+      //   });
     }
   }
   return (

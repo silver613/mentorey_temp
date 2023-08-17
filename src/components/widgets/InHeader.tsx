@@ -120,19 +120,19 @@ function InHeader() {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                <MenuItem onClick={() => router.push("/learn")}>
+                <MenuItem onClick={() => router.push("/pupil/learn")}>
                   <ListItemIcon>
                     <CastForEducationIcon fontSize="small" color="primary" />
                   </ListItemIcon>
                   <Typography>Learn</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => router.push("/findcoach")}>
+                <MenuItem onClick={() => router.push("/pupil/findcoach")}>
                   <ListItemIcon>
                     <PageviewIcon fontSize="small" color="primary" />
                   </ListItemIcon>
                   <Typography textAlign="center">Find a Coach</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => router.push("/seminar")}>
+                <MenuItem onClick={() => router.push("/pupil/seminar")}>
                   <ListItemIcon>
                     <Diversity1Icon fontSize="small" color="primary" />
                   </ListItemIcon>
@@ -155,7 +155,7 @@ function InHeader() {
               }}
             >
               <Button
-                onClick={() => router.push("/learn")}
+                onClick={() => router.push("/pupil/learn")}
                 sx={{
                   my: 2,
                   display: "block",
@@ -169,7 +169,7 @@ function InHeader() {
                 Learn
               </Button>
               <Button
-                onClick={() => router.push("/findcoach")}
+                onClick={() => router.push("/pupil/findcoach")}
                 sx={{
                   my: 2,
                   display: "block",
@@ -183,7 +183,7 @@ function InHeader() {
                 Find a Coach
               </Button>
               <Button
-                onClick={() => router.push("/seminar")}
+                onClick={() => router.push("/pupil/seminar")}
                 sx={{
                   my: 2,
                   display: "block",
@@ -266,7 +266,7 @@ function InHeader() {
                 </MenuItem>
                 {curUser
                   ? !Boolean(Number(curUser["custom:is_teacher"])) && (
-                      <MenuItem onClick={() => redirect("/become_teacher")}>
+                      <MenuItem onClick={() => redirect("/coach/be_coach")}>
                         <ListItemIcon>
                           <AssignmentIndIcon fontSize="small" />
                         </ListItemIcon>
@@ -275,7 +275,7 @@ function InHeader() {
                     )
                   : null}
                 {curUser && Boolean(Number(curUser["custom:is_teacher"])) && (
-                  <MenuItem onClick={() => router.push(`/new_lesson`)}>
+                  <MenuItem onClick={() => router.push(`/coach/new_lesson`)}>
                     <ListItemIcon>
                       <AddToPhotosIcon fontSize="small" />
                     </ListItemIcon>
@@ -283,7 +283,7 @@ function InHeader() {
                   </MenuItem>
                 )}
                 {curUser && Boolean(Number(curUser["custom:is_teacher"])) && (
-                  <MenuItem onClick={() => router.push(`/teacher_dashboard`)}>
+                  <MenuItem onClick={() => router.push(`/coach/dashboard`)}>
                     <ListItemIcon>
                       <DashboardIcon fontSize="small" />
                     </ListItemIcon>
